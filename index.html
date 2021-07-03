@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./css/reset.css">
+    <link rel="stylesheet" href="./css/dictionary.css">
+    <link rel="stylesheet" href="./css/3-rd-party/font-awesome.min.css">
+    <title>Dictionary</title>
+</head>
+
+<body>
+    <h1>My dictionary</h1>
+    <form>
+        <div>
+            <label for="english">English</label>
+            <input id="add_english" type="text">
+        </div>
+        <div>
+            <label for="lithuanian">Lithuanian</label>
+            <input id="add_lithuanian" type="text">
+        </div>
+        <div class="buttons">
+            <button id="save" type="submit">Save</button>
+            <button id="reset" type="reset">Reset</button>
+        </div>
+    </form>
+    <h2>Saved words:</h2>
+    <list class="words">
+        <div class="english">
+            <div>Eng Content</div>
+        </div>
+        <div class="lithuanian">
+            <div>Ltu Content</div>
+        </div>
+        <div class="btn">
+            <button class="fa fa-pencil" aria-hidden="true" type="button"></button>
+            <button class="fa fa-trash" aria-hidden="true" class="delete" type="button"></button>
+        </div>
+    </list>
+    <script src="./js/main.js" type="module" defer></script>
+</body>
+
+</html>

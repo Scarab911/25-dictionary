@@ -1,0 +1,75 @@
+body {
+  background-color: #fff;
+}
+h1,
+h2 {
+  width: 100%;
+  text-align: center;
+  margin-top: 20px;
+  font-style: italic;
+  text-decoration: underline;
+  font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+}
+form {
+  display: grid;
+  gap: 30px;
+  padding: 20px;
+  margin: 50px 100px;
+  border: solid 2px #ccc;
+  box-shadow: #cc3 2px 2px;
+  grid-template-columns: 1fr 1fr auto;
+}
+form > div {
+  display: flex;
+  flex-direction: column;
+}
+.buttons {
+  flex-direction: row;
+  justify-content: space-around;
+  gap: 10px;
+  width: 100%;
+  align-items: flex-end;
+}
+form label {
+  font-size: 24px;
+  line-height: 30px;
+  text-align: center;
+}
+form input {
+  line-height: 30px;
+  font-size: 18px;
+}
+button {
+  height: 40px;
+  padding: 0px 20px;
+  border-radius: 4px;
+  border: none;
+  box-shadow: 1px 1px #201f1f7a;
+  font-size: 18px;
+  font-weight: bolder;
+}
+
+list {
+  display: grid;
+  grid-template-columns: 1fr 1fr auto;
+  margin: 0 100px;
+  padding: 20px;
+  gap: 10px 0;
+  line-height: 40px;
+  font-size: 24px;
+  text-align: center;
+}
+list > div {
+  border: 1px #eee solid;
+}
+list button {
+  box-shadow: none;
+  font-size: 18px;
+  padding: 5px 20px;
+}
+list button.fa.fa-pencil {
+  background-color: rgb(14, 165, 27);
+}
+list button.fa.fa-trash {
+  background-color: rgb(224, 14, 14);
+}
