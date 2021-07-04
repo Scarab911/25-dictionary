@@ -1,0 +1,26 @@
+@media (max-width: 850px) {
+  form {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin: 50px;
+  }
+  form .buttons {
+    justify-content: center;
+    gap: 20px;
+  }
+}
+@media (max-width: 650px) {
+  list {
+    margin: 0;
+    padding: 30px;
+  }
+}
+@media (max-width: 420px) {
+  list {
+    grid-template-columns: minmax(200px, 1fr);
+  }
+  list .btn {
+    border: none;
+  }
+}

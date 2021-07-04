@@ -1,0 +1,25 @@
+list {
+  display: grid;
+  grid-template-columns: 1fr 1fr auto;
+  margin: 0 100px;
+  padding: 20px;
+  gap: 10px 0;
+  line-height: 40px;
+  font-size: 24px;
+  text-align: center;
+  text-transform: capitalize;
+}
+list > div {
+  border: 1px #eee solid;
+}
+list button {
+  box-shadow: none;
+  font-size: 18px;
+  padding: 5px 20px;
+}
+list button.fa.fa-pencil {
+  background-color: rgb(14, 165, 27);
+}
+list button.fa.fa-trash {
+  background-color: rgb(224, 14, 14);
+}

@@ -8,6 +8,12 @@ class Dictionary {
         this.lithuanianTextDOM = null;
         this.buttonSaveDOM = null;
 
+        this.allEditButtonsDOM = null;
+        this.allDeleteButtonsDOM = null;
+
+        this.allEngTextsDOM = null;
+        this.allLtutextsDOM = null;
+
         this.savedWords = JSON.parse(localStorage.getItem('words')) || [];
 
         this.init();
@@ -22,8 +28,9 @@ class Dictionary {
             return false
         }
         this.render();
-        this.addEvents();
+        this.addFormEvents();
         this.renderWords();
+        this.addDictionaryEvents();
     };
     isValidSelector() {
         if (typeof this.selector !== 'string' ||
@@ -61,17 +68,23 @@ class Dictionary {
     }
     renderDictionary(engText, ltuText) {
         const HTML = `<div class="english">
-                            <div>${engText}</div>
+                            <div class="engText">${engText}</div>
                         </div>
                         <div class="lithuanian">
-                            <div>${ltuText}</div>
+                            <div class="ltuText">${ltuText}</div>
                         </div>
                         <div class="btn">
-                            <button class="fa fa-pencil" aria-hidden="true" type="button"></button>
-                            <button class="fa fa-trash" aria-hidden="true" class="delete" type="button"></button>
+                            <button href="html" id="edit" class="fa fa-pencil" aria-hidden="true" type="button"></button>
+                            <button id="delete" class="fa fa-trash" aria-hidden="true"  type="button"></button>
                         </div>`
 
         this.listDOM.insertAdjacentHTML('afterbegin', HTML)
+
+        this.allEditButtonsDOM = document.querySelectorAll('.fa.fa-pencil');
+        this.allDeleteButtonsDOM = document.querySelectorAll('.fa.fa-trash');
+        this.allEngTextsDOM = document.querySelectorAll('.engText');
+        this.allLtuTextsDOM = document.querySelectorAll('.ltuText')
+        console.log(this.allLtuTextsDOM);
     };
     render() {
         let HTML = ''
@@ -83,8 +96,9 @@ class Dictionary {
         this.englishTextDOM = document.getElementById('add_english')
         this.lithuanianTextDOM = document.getElementById('add_lithuanian')
         this.buttonSaveDOM = document.getElementById('save');
+
     }
-    addEvents() {
+    addFormEvents() {
 
         this.buttonSaveDOM.addEventListener('click', (e) => {
             e.preventDefault();
@@ -103,6 +117,53 @@ class Dictionary {
 
             this.renderDictionary(engText, ltuText)
         });
+
     };
+    addDictionaryEvents() {
+        //     // this.deleteButtonDOM.addEventListener('click', (e) => {
+        //     //     e.preventDefault();
+
+
+        // });
+        // for (const edit of this.allEditButtonsDOM) {
+        //     edit.addEventListener('click', (e) => {
+        //         e.preventDefault();
+
+        //         for (const word of this.allEngTextsDOM) {
+        //             this.englishTextDOM.value = word.innerText;
+        //             break;
+        //         };
+        //         for (const word of this.allLtuTextsDOM) {
+        //             this.lithuanianTextDOM.value = word.innerText;
+        //             break;
+        //         };
+        //         console.log('button works');
+        //     })
+        // }
+        for (let i = 0; i < this.allEditButtonsDOM.length; i++) {
+            const editBtn = this.allEditButtonsDOM[i];
+            editBtn.addEventListener('click', (e) => {
+
+
+                for (let j = 0; j < this.allEngTextsDOM.length; j++) {
+                    const engWord = this.allEngTextsDOM[j];
+                    if (i === j) {
+                        this.englishTextDOM.value = engWord.innerText;
+                        break;
+                    }
+                }
+                for (let j = 0; j < this.allLtuTextsDOM.length; j++) {
+                    const ltuWord = this.allLtuTextsDOM[j];
+                    if (i === j) {
+                        this.lithuanianTextDOM.value = ltuWord.innerText;
+                        break;
+                    }
+                }
+            });
+
+        }
+
+    }
+
 }
 export { Dictionary };

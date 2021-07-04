@@ -1,0 +1,31 @@
+@import url('./3-rd-party/font-awesome.min.css');
+@import url('./base/reset.css');
+@import url('./components/dictionary.css');
+@import url('./components/form.css');
+@import url('./base/layout.css');
+
+/*Custom style below*/
+
+body {
+  background-color: #fff;
+}
+h1,
+h2 {
+  width: 100%;
+  text-align: center;
+  margin-top: 20px;
+  font-style: italic;
+  text-decoration: underline;
+  font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+}
+
+button {
+  height: 40px;
+  padding: 0px 20px;
+  border-radius: 4px;
+  border: none;
+  box-shadow: 1px 1px #201f1f7a;
+  font-size: 18px;
+  font-weight: bolder;
+  cursor: pointer;
+}

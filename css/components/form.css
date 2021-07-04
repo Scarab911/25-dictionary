@@ -1,0 +1,29 @@
+form {
+  display: grid;
+  gap: 30px;
+  padding: 20px;
+  margin: 50px 100px;
+  border: solid 2px #ccc;
+  box-shadow: #cc3 2px 2px;
+  grid-template-columns: 1fr 1fr auto;
+}
+form > div {
+  display: flex;
+  flex-direction: column;
+}
+.buttons {
+  flex-direction: row;
+  justify-content: space-around;
+  gap: 10px;
+  width: 100%;
+  align-items: flex-end;
+}
+form label {
+  font-size: 24px;
+  line-height: 30px;
+  text-align: center;
+}
+form input {
+  line-height: 30px;
+  font-size: 18px;
+}
