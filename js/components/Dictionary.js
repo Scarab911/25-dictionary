@@ -8,6 +8,7 @@ class Dictionary {
         this.lithuanianTextDOM = null;
         this.buttonSaveDOM = null;
 
+        this.savedWords = JSON.parse(localStorage.getItem('words')) || [];
 
         this.init();
     }
@@ -22,7 +23,7 @@ class Dictionary {
         }
         this.render();
         this.addEvents();
-        // this.renderDictionary();
+        this.renderWords();
     };
     isValidSelector() {
         if (typeof this.selector !== 'string' ||
@@ -53,6 +54,11 @@ class Dictionary {
     generateList() {
         return `<list class="words"></list>`
     }
+    renderWords() {
+        for (const word of this.savedWords) {
+            this.renderDictionary(word.English, word.Lithuanian)
+        };
+    }
     renderDictionary(engText, ltuText) {
         const HTML = `<div class="english">
                             <div>${engText}</div>
@@ -77,9 +83,9 @@ class Dictionary {
         this.englishTextDOM = document.getElementById('add_english')
         this.lithuanianTextDOM = document.getElementById('add_lithuanian')
         this.buttonSaveDOM = document.getElementById('save');
-        console.log(this.buttonSaveDOM);
     }
     addEvents() {
+
         this.buttonSaveDOM.addEventListener('click', (e) => {
             e.preventDefault();
             const engText = this.englishTextDOM.value;
@@ -88,8 +94,13 @@ class Dictionary {
             if (engText === '' || ltuText === '') {
                 return false;
             }
+            this.savedWords.push({
+                English: engText,
+                Lithuanian: ltuText
+            })
 
-            console.log('veikia');
+            localStorage.setItem('words', JSON.stringify(this.savedWords));
+
             this.renderDictionary(engText, ltuText)
         });
     };

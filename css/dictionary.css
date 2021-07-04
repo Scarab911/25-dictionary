@@ -59,6 +59,7 @@ list {
   line-height: 40px;
   font-size: 24px;
   text-align: center;
+  text-transform: capitalize;
 }
 list > div {
   border: 1px #eee solid;
