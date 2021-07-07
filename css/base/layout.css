@@ -11,16 +11,25 @@
   }
 }
 @media (max-width: 650px) {
-  list {
-    margin: 0;
+  .entry {
+    width: 100%;
     padding: 30px;
+  }
+  list {
+    margin: 0.5em;
   }
 }
 @media (max-width: 420px) {
-  list {
-    grid-template-columns: minmax(200px, 1fr);
+  .entry {
+    flex-wrap: wrap;
+  }
+  .fa.fa-arrows-h {
+    display: none;
   }
   list .btn {
     border: none;
+  }
+  list {
+    margin: 0.5em;
   }
 }

@@ -1,6 +1,6 @@
 list {
   display: grid;
-  grid-template-columns: 1fr 1fr auto;
+  grid-template-columns: 1fr;
   margin: 0 100px;
   padding: 20px;
   gap: 10px 0;
@@ -10,7 +10,17 @@ list {
   text-transform: capitalize;
 }
 list > div {
+  display: flex;
+  width: 400px;
+  margin-left: calc(50% - 200px);
+  gap: 30px;
+  flex-wrap: wrap;
   border: 1px #eee solid;
+  justify-content: center;
+}
+.entry > div {
+  align-items: center;
+  line-height: 40px;
 }
 list button {
   box-shadow: none;

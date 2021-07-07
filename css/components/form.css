@@ -7,6 +7,9 @@ form {
   box-shadow: #cc3 2px 2px;
   grid-template-columns: 1fr 1fr auto;
 }
+.paslepta {
+  display: none;
+}
 form > div {
   display: flex;
   flex-direction: column;

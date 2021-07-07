@@ -8,13 +8,27 @@ class Dictionary {
         this.lithuanianTextDOM = null;
         this.buttonSaveDOM = null;
 
-        this.allEditButtonsDOM = null;
-        this.allDeleteButtonsDOM = null;
+        this.entryDOM = null;
+        this.editButtonDOM = null;
+        this.deleteButtonDOM = null;
 
-        this.allEngTextsDOM = null;
-        this.allLtutextsDOM = null;
+        this.EngTextDOM = null;
+        this.ltutextDOM = null;
 
-        this.savedWords = JSON.parse(localStorage.getItem('words')) || [];
+        this.addFormDOM = null;
+        this.updateFormDOM = null;
+        this.updateButton = null;
+        this.cancelButton = null;
+        this.updateEngTextDOM = null;
+        this.updateLtuTextDOM = null;
+
+        this.localStorageSavedWords = 'words';
+        this.localStorageIDcount = 'translationID';
+
+        this.latestUsedID = JSON.parse(localStorage.getItem(this.localStorageIDcount)) || 0;
+        this.savedWords = JSON.parse(localStorage.getItem(this.localStorageSavedWords)) || [];
+
+        this.currentlyEditableEntryID = 0;
 
         this.init();
     }
@@ -28,9 +42,8 @@ class Dictionary {
             return false
         }
         this.render();
-        this.addFormEvents();
         this.renderWords();
-        this.addDictionaryEvents();
+        this.addEvents();
     };
     isValidSelector() {
         if (typeof this.selector !== 'string' ||
@@ -40,9 +53,9 @@ class Dictionary {
         }
         return true;
     };
-    generateMainContent() {
+    generateAddForm() {
         return `<h1>My dictionary</h1>
-                <form>
+                <form id="add_form">
                     <div>
                         <label for="english">English</label>
                         <input id="add_english" type="text">
@@ -55,40 +68,81 @@ class Dictionary {
                         <button id="save" type="submit">Save</button>
                         <button id="reset" type="reset">Reset</button>
                     </div>
+                </form>`
+
+    };
+    generateEditForm() {
+        return ` <form id="update_form" class="paslepta">
+                    <div>
+                        <label for="english">English</label>
+                        <input id="update_english" type="text">
+                    </div>
+                    <div>
+                        <label for="lithuanian">Lithuanian</label>
+                        <input id="update_lithuanian" type="text">
+                    </div>
+                    <div class="buttons">
+                        <button id="update" type="submit">Update</button>
+                        <button id="cancel" type="button">Cancel</button>
+                    </div>
                 </form>
                 <h2>Saved words:</h2>`
-    };
+    }
     generateList() {
-        return `<list class="words"></list>`
+        return `<list class="words"></list>`;
     }
     renderWords() {
         for (const word of this.savedWords) {
-            this.renderDictionary(word.English, word.Lithuanian)
+            this.renderDictionary(word.id, word.english, word.lithuanian)
         };
     }
-    renderDictionary(engText, ltuText) {
-        const HTML = `<div class="english">
+    renderDictionary(id, engText, ltuText) {
+        const HTML = `<div id="translation_${id}" class="entry">
+                        <div class="english">
                             <div class="engText">${engText}</div>
                         </div>
+                        <div class="fa fa-arrows-h" aria-hidden="true"></div>
                         <div class="lithuanian">
                             <div class="ltuText">${ltuText}</div>
                         </div>
                         <div class="btn">
                             <button href="html" id="edit" class="fa fa-pencil" aria-hidden="true" type="button"></button>
-                            <button id="delete" class="fa fa-trash" aria-hidden="true"  type="button"></button>
-                        </div>`
+                            <button id="delete" class="fa fa-trash" aria-hidden="true"  type="submit"></button>
+                        </div>
+                      </div >`
 
         this.listDOM.insertAdjacentHTML('afterbegin', HTML)
 
-        this.allEditButtonsDOM = document.querySelectorAll('.fa.fa-pencil');
-        this.allDeleteButtonsDOM = document.querySelectorAll('.fa.fa-trash');
-        this.allEngTextsDOM = document.querySelectorAll('.engText');
-        this.allLtuTextsDOM = document.querySelectorAll('.ltuText')
-        console.log(this.allLtuTextsDOM);
+        this.entryDOM = this.listDOM.querySelector('.entry')
+        this.editButtonDOM = this.entryDOM.querySelector('.fa.fa-pencil');
+        this.deleteButtonDOM = this.entryDOM.querySelector('.fa.fa-trash');
+
+
+        this.deleteButtonDOM.addEventListener('click', (e) => {
+            e.preventDefault();
+            if (!confirm('Ar tikrai norite istrinti si irasa?')) { //eilute skirta papildomam paklausimui!
+                return false;
+            }
+
+            this.entryDOM.remove();
+
+            this.savedWords = this.savedWords.filter((translation) => translation.id !== id);
+            localStorage.setItem(this.localStorageSavedWords, JSON.stringify(this.savedWords));
+        });
+
+        this.editButtonDOM.addEventListener('click', () => {
+
+            this.addHideEditUnhide()
+            this.updateEngTextDOM.value = engText;
+            this.updateLtuTextDOM.value = ltuText;
+            this.currentlyEditableEntryID = id;
+
+        });
     };
     render() {
         let HTML = ''
-        HTML += this.generateMainContent();
+        HTML += this.generateAddForm();
+        HTML += this.generateEditForm();
         HTML += this.generateList();
         this.DOM.innerHTML = HTML;
 
@@ -96,9 +150,19 @@ class Dictionary {
         this.englishTextDOM = document.getElementById('add_english')
         this.lithuanianTextDOM = document.getElementById('add_lithuanian')
         this.buttonSaveDOM = document.getElementById('save');
+        this.addFormDOM = document.getElementById('add_form');
+        this.updateFormDOM = document.getElementById('update_form');
+        this.updateButton = this.updateFormDOM.querySelector('#update')
+        this.cancelButton = this.updateFormDOM.querySelector('#cancel')
+        this.updateEngTextDOM = document.getElementById('update_english');
+        this.updateLtuTextDOM = document.getElementById('update_lithuanian')
+
+        this.cancelButton.addEventListener('click', () => {
+            this.addUnhideEditHide();
+        })
 
     }
-    addFormEvents() {
+    addEvents() {
 
         this.buttonSaveDOM.addEventListener('click', (e) => {
             e.preventDefault();
@@ -109,61 +173,45 @@ class Dictionary {
                 return false;
             }
             this.savedWords.push({
-                English: engText,
-                Lithuanian: ltuText
+                id: ++this.latestUsedID,
+                english: engText,
+                lithuanian: ltuText
             })
 
-            localStorage.setItem('words', JSON.stringify(this.savedWords));
+            localStorage.setItem(this.localStorageSavedWords, JSON.stringify(this.savedWords));
+            localStorage.setItem(this.localStorageIDcount, JSON.stringify(this.latestUsedID));
 
-            this.renderDictionary(engText, ltuText)
+            this.renderDictionary(this.latestUsedID, engText, ltuText)
+        });
+        this.updateButton.addEventListener('click', (e) => {
+
+            e.preventDefault();
+
+            this.addUnhideEditHide();
+
+            const engWord = this.updateEngTextDOM.value;
+            const ltuWord = this.updateLtuTextDOM.value;
+
+            for (const entry of this.savedWords) {
+                if (entry.id === this.savedWords.id) {
+                    console.log(entry.id);
+                    engText = engWord;
+                    ltuText = ltuWord;
+                }
+            }
+            localStorage.setItem(this.localStorageSavedWords, JSON.stringify(this.savedWords));
+            const translationDOM = document.querySelector('#translation_' + this.currentlyEditableEntryID)
+
         });
 
     };
-    addDictionaryEvents() {
-        //     // this.deleteButtonDOM.addEventListener('click', (e) => {
-        //     //     e.preventDefault();
-
-
-        // });
-        // for (const edit of this.allEditButtonsDOM) {
-        //     edit.addEventListener('click', (e) => {
-        //         e.preventDefault();
-
-        //         for (const word of this.allEngTextsDOM) {
-        //             this.englishTextDOM.value = word.innerText;
-        //             break;
-        //         };
-        //         for (const word of this.allLtuTextsDOM) {
-        //             this.lithuanianTextDOM.value = word.innerText;
-        //             break;
-        //         };
-        //         console.log('button works');
-        //     })
-        // }
-        for (let i = 0; i < this.allEditButtonsDOM.length; i++) {
-            const editBtn = this.allEditButtonsDOM[i];
-            editBtn.addEventListener('click', (e) => {
-
-
-                for (let j = 0; j < this.allEngTextsDOM.length; j++) {
-                    const engWord = this.allEngTextsDOM[j];
-                    if (i === j) {
-                        this.englishTextDOM.value = engWord.innerText;
-                        break;
-                    }
-                }
-                for (let j = 0; j < this.allLtuTextsDOM.length; j++) {
-                    const ltuWord = this.allLtuTextsDOM[j];
-                    if (i === j) {
-                        this.lithuanianTextDOM.value = ltuWord.innerText;
-                        break;
-                    }
-                }
-            });
-
-        }
-
+    addHideEditUnhide() {
+        this.addFormDOM.classList.add('paslepta');
+        this.updateFormDOM.classList.remove('paslepta');
+    };
+    addUnhideEditHide() {
+        this.addFormDOM.classList.remove('paslepta');
+        this.updateFormDOM.classList.add('paslepta');
     }
-
 }
 export { Dictionary };
