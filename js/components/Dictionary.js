@@ -200,8 +200,14 @@ class Dictionary {
                 }
             }
             localStorage.setItem(this.localStorageSavedWords, JSON.stringify(this.savedWords));
-            const translationDOM = document.querySelector('#translation_' + this.currentlyEditableEntryID)
 
+            const translationDOM = document.querySelector('#translation_' + this.currentlyEditableEntryID)
+            const engEntryDOM = translationDOM.querySelector('.engText')
+            const ltuEntryDOM = translationDOM.querySelector('.ltuText')
+
+            engEntryDOM.innerText = engWord;
+            ltuEntryDOM.innerText = ltuWord;
+            console.log(engEntryDOM, ltuEntryDOM);
         });
 
     };
