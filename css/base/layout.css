@@ -16,10 +16,10 @@
     padding: 30px;
   }
   list {
-    margin: 0.5em;
+    padding: 20px;
   }
 }
-@media (max-width: 420px) {
+@media (max-width: 440px) {
   .entry {
     flex-wrap: wrap;
   }
@@ -29,7 +29,10 @@
   list .btn {
     border: none;
   }
-  list {
-    margin: 0.5em;
+  .entry .translated {
+    flex-direction: column;
+  }
+  .translated .text {
+    word-break: unset;
   }
 }

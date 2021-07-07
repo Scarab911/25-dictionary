@@ -98,12 +98,14 @@ class Dictionary {
     }
     renderDictionary(id, engText, ltuText) {
         const HTML = `<div id="translation_${id}" class="entry">
-                        <div class="english">
-                            <div class="engText">${engText}</div>
-                        </div>
-                        <div class="fa fa-arrows-h" aria-hidden="true"></div>
-                        <div class="lithuanian">
-                            <div class="ltuText">${ltuText}</div>
+                        <div class="translated">
+                            <div class="english text">
+                                <div class="engText">${engText}</div>
+                            </div>
+                            <div class="fa fa-arrows-h" aria-hidden="true"></div>
+                            <div class="lithuanian text">
+                                <div class="ltuText">${ltuText}</div>
+                            </div>
                         </div>
                         <div class="btn">
                             <button href="html" id="edit" class="fa fa-pencil" aria-hidden="true" type="button"></button>

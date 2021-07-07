@@ -1,26 +1,32 @@
 list {
-  display: grid;
-  grid-template-columns: 1fr;
-  margin: 0 100px;
-  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  padding: 20px 90px;
   gap: 10px 0;
   line-height: 40px;
   font-size: 24px;
   text-align: center;
   text-transform: capitalize;
 }
-list > div {
+list > .entry {
   display: flex;
-  width: 400px;
-  margin-left: calc(50% - 200px);
+  width: 100%;
   gap: 30px;
   flex-wrap: wrap;
   border: 1px #eee solid;
   justify-content: center;
 }
-.entry > div {
+.entry > .translated {
+  display: flex;
+  width: 80%;
+  gap: 20px;
   align-items: center;
-  line-height: 40px;
+  justify-content: center;
+}
+.translated .text {
+  width: 40%;
+  word-break: break-all;
 }
 list button {
   box-shadow: none;
