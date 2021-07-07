@@ -113,24 +113,24 @@ class Dictionary {
 
         this.listDOM.insertAdjacentHTML('afterbegin', HTML)
 
-        this.entryDOM = this.listDOM.querySelector('.entry')
-        this.editButtonDOM = this.entryDOM.querySelector('.fa.fa-pencil');
-        this.deleteButtonDOM = this.entryDOM.querySelector('.fa.fa-trash');
+        const entryDOM = this.listDOM.querySelector('.entry')
+        const editButtonDOM = entryDOM.querySelector('.fa.fa-pencil');
+        const deleteButtonDOM = entryDOM.querySelector('.fa.fa-trash');
 
 
-        this.deleteButtonDOM.addEventListener('click', (e) => {
+        deleteButtonDOM.addEventListener('click', (e) => {
             e.preventDefault();
             if (!confirm('Ar tikrai norite istrinti si irasa?')) { //eilute skirta papildomam paklausimui!
                 return false;
             }
 
-            this.entryDOM.remove();
+            entryDOM.remove();
 
             this.savedWords = this.savedWords.filter((translation) => translation.id !== id);
             localStorage.setItem(this.localStorageSavedWords, JSON.stringify(this.savedWords));
         });
 
-        this.editButtonDOM.addEventListener('click', () => {
+        editButtonDOM.addEventListener('click', () => {
 
             this.addHideEditUnhide()
             this.updateEngTextDOM.value = engText;
